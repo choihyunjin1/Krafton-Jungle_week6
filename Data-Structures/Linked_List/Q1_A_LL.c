@@ -90,7 +90,26 @@ int main()
 
 int insertSortedLL(LinkedList *ll, int item)
 {
-	/* add your code here */
+	// 리스트 자체가 예기치 못하게 비어있는 오류 상황이라면 
+	if (ll == NULL)
+		return -1;
+
+	int index = 0;                // 내가 들어갈 자리가 몇 번째(인덱스)인지 셀 변수
+	ListNode *cur = ll->head;     // 첫 번째 노드부터 출발
+
+	// 나(item)보다 더 큰 놈이 나타날 때까지 계속 다음 칸으로 전진
+	// (만일 나보다 큰 놈이 없으면 끝(NULL)까지 갈 테니 맨 뒤에 서게 됨)
+	while (cur != NULL && cur->item < item)
+	{
+		cur = cur->next;
+		index++;              // 한 칸 뒤로 갈 때마다 자리 번호도 1 증가시킴
+	}
+
+	// 알맞은 자리를 찾았으니 기존에 밑에 만들어져있는 insertNode 함수를 꿀 빨며 호출함
+	// (알아서 연결 고리 끊고 이어주는 복잡한 과정은 insertNode가 다 해줌)
+	insertNode(ll, index, item);
+
+	return index;             // 내가 들어간 자리 번호를 반환해 줌 (보통 성공 여부나 인덱스 리턴함)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

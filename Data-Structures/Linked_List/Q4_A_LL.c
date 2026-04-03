@@ -93,6 +93,7 @@ void moveEvenItemsToBack(LinkedList *ll)
     ListNode *cur = ll->head;      // 현재 짝수인지 홀수인지 검사할 녀석
     ListNode *prev = NULL;         // 항상 cur의 바로 앞을 쫓아다니는 녀석 (cur를 떼어낼 때 연결 끊어주기 위해 필요)
     ListNode *tail = ll->head;     // 짝수 발견하면 뒤에 붙여야 하니까 맨 끝 위치를 가리킬 녀석
+							       // 
 
     // 1. 진짜 꼬리(끝 노드) 찾기
     // 리스트 끝까지 쭈욱 돌아서 꼬리가 누군지 파악함
