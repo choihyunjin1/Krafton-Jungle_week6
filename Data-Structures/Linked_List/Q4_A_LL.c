@@ -84,9 +84,8 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void moveEvenItemsToBack(LinkedList *ll)
-{
-	// 리스트가 비어있거나 노드가 1개 이하면 옮길 것도 없으니 바로 종료!
+/// @brief 
+
     if (ll == NULL || ll->head == NULL || ll->head->next == NULL)
         return;
 
@@ -102,7 +101,7 @@ void moveEvenItemsToBack(LinkedList *ll)
 
     ListNode *oldTail = tail;      // 원래 리스트의 진짜 꼬리를 기억해 둠
                                    // 이걸 안 해두면 나중에 짝수를 뒤로 보냈을 때 다시 또 검사하면서 무한 루프에 빠짐...
-
+''
     // 2. 본격적인 순회 시작 (단, 원래 리스트의 꼬리(oldTail)까지만 검사!)
     while (cur != NULL && cur != oldTail->next)
     {
