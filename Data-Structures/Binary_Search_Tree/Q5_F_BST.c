@@ -91,15 +91,126 @@ int main()
 
 void postOrderIterativeS2(BSTNode *root)
 {
-	 /* add your code here */
+	if (root == NULL) return;
+
+	Stack s1, s2;
+	s1.top = NULL;
+	s2.top = NULL;
+
+	push(&s1, root);
+
+	while (!isEmpty(&s1))
+	{
+		BSTNode *temp = pop(&s1);
+		push(&s2, temp);
+
+		if (temp->left != NULL)
+			push(&s1, temp->left);
+		if (temp->right != NULL)
+			push(&s1, temp->right);
+	}
+
+	while (!isEmpty(&s2))
+	{
+		printf("%d ", pop(&s2)->item);
+	}
 }
 
 /* Given a binary search tree and a key, this function
    deletes the key and returns the new root. Make recursive function. */
 BSTNode* removeNodeFromTree(BSTNode *root, int value)
 {
-	/* add your code here */
+	if (root == NULL) return NULL;
+
+	if (value < root->item)
+	{
+		root->left = removeNodeFromTree(root->left, value);
+	}
+	else if (value > root->item)
+	{
+		root->right = removeNodeFromTree(root->right, value);
+	}
+	else
+	{
+		if (root->left == NULL && root->right == NULL)
+		{
+			free(root);
+			return NULL;
+		}
+		else if (root->left == NULL)
+		{
+			BSTNode *temp = root->right;
+			free(root);
+			return temp;
+		}
+		else if (root->right == NULL)
+		{
+			BSTNode *temp = root->left;
+			free(root);
+			return temp;
+		}
+		else
+		{
+			BSTNode *temp = root->right;S
+			while (temp->left != NULL)
+				temp = temp->left;
+
+			root->item = temp->item;
+			root->right = removeNodeFromTree(root->right, temp->item);
+		}
+	}
+	return root;
 }
+/* ========================= postOrderIterativeS2 흐름 설명 =========================
+   아이디어: 스택 2개 사용 (s1, s2)
+
+   [흐름]
+   1. root를 s1에 push
+   2. s1이 빌 때까지 반복
+      - s1에서 pop → s2에 push
+      - 왼쪽 자식 있으면 s1에 push
+      - 오른쪽 자식 있으면 s1에 push
+   3. s2를 pop하면서 출력 → postorder 완성
+
+   [왜 되는가?]
+   - s1: root → right → left 순으로 처리됨
+   - s2: reverse 되어 left → right → root 순서 → postorder
+
+   [요약]
+   s1 → 처리 순서 만들기
+   s2 → 순서 뒤집어서 출력
+=============================================================================== */
+
+
+/* ========================= removeNodeFromTree 흐름 설명 =========================
+   아이디어: BST 삭제는 3가지 경우로 나눔
+
+   [탐색 단계]
+   - value < root → 왼쪽으로 재귀
+   - value > root → 오른쪽으로 재귀
+   - value == root → 삭제 수행
+
+   [삭제 3가지 경우]
+
+   1. 리프 노드 (자식 없음)
+      - 그냥 free 후 NULL 반환
+
+   2. 자식 1개
+      - 자식 노드를 대신 반환
+      - 현재 노드 free
+
+   3. 자식 2개
+      - 오른쪽 서브트리에서 가장 작은 값 찾기 (inorder successor)
+      - 현재 노드 값을 그 값으로 교체
+      - 오른쪽 서브트리에서 해당 값 삭제 (재귀)
+
+   [핵심 포인트]
+   - 항상 "삭제 후 새 root 반환"이 중요
+   - 부모가 연결을 유지하도록 해야 함
+
+   [요약]
+   탐색 → 경우 나누기 → 재귀로 연결 유지
+=============================================================================== */
 ///////////////////////////////////////////////////////////////////////////////
 
 void insertBSTNode(BSTNode **node, int value){
